@@ -1,0 +1,20 @@
+C TC 1
+C DF 2
+C PM 2
+C GJ 3
+
+G 2
+
+I 1 2 3 4 5 -1
+O 18 -1
+
+A 1 1 2 6 TC
+A 2 2 3 7 PM
+A 3 3 4 8 DF
+A 4 6 7 9 TC
+A 5 7 8 10 GJ
+A 6 9 10 11 DF
+A 7 11 4 12 PM
+A 8 12 5 13 TC
+A 9 13 3 14 DF
+A 10 14 2 18 PM

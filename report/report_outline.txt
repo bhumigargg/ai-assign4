@@ -1,0 +1,268 @@
+MA3206 – Artificial Intelligence
+Assignment 4
+Greedy Scheduling and A* Search
+
+--------------------------------------------------
+
+1. Introduction
+
+This assignment studies an AI scheduling problem where a set of assignments must be completed under prerequisite constraints, group size constraint (g students per day), fixed daily food menu constraint, and the goal of minimizing total food cost.
+
+Each assignment requires a specific food item based on difficulty level:
+
+TC - Tandoori Chicken
+PM - Paneer Butter Masala
+DF - Dal Fry
+GJ - Gulab Jamun
+
+Students can solve at most g assignments per day, and only one menu can be ordered per day.
+
+Thus, the problem becomes a constrained optimization problem combining:
+
+• Topological scheduling
+• Resource allocation
+• Cost optimization
+
+We implemented:
+
+a. Greedy algorithms (approximate solution)
+b. A* search algorithm (optimal solution)
+
+--------------------------------------------------
+
+2. Problem Representation
+
+Each assignment is represented as:
+
+A = (id, prerequisites, output, food)
+
+Example:
+
+A5 depends on outputs of A1 and A2.
+
+The structure forms a Directed Acyclic Graph (DAG).
+
+Goal:
+Schedule all assignments such that:
+
+1. dependencies are satisfied
+2. no more than g assignments are done per day
+3. total food cost is minimized
+
+--------------------------------------------------
+
+3. Greedy Strategies
+
+Greedy algorithms make locally optimal choices at each step.
+
+We implemented two greedy strategies.
+
+--------------------------------------------------
+
+3.1 Greedy by Food Cost
+
+Strategy:
+
+Select assignments requiring the cheapest food item first.
+
+Motivation:
+
+Lower food prices reduce daily cost.
+
+Selection rule:
+
+Choose up to g available assignments with minimum food cost.
+
+Advantages:
+
+• simple
+• fast
+• reduces expensive menu items early
+
+Disadvantages:
+
+• ignores dependency structure
+• may increase total days
+
+--------------------------------------------------
+
+3.2 Greedy by Food Frequency
+
+Strategy:
+
+Prioritize assignments whose food type appears most frequently among remaining assignments.
+
+Motivation:
+
+If many assignments require TC, scheduling them together reduces menu diversity.
+
+Selection rule:
+
+Choose assignments with most frequent food type.
+
+Advantages:
+
+• reduces menu variation
+• increases chance of shared menu
+
+Disadvantages:
+
+• may delay critical assignments
+• not always optimal
+
+--------------------------------------------------
+
+4. A* Search Algorithm
+
+A* guarantees optimal solution using:
+
+f(n) = g(n) + h(n)
+
+where:
+
+g(n) = cost accumulated so far
+h(n) = estimated future cost
+
+--------------------------------------------------
+
+4.1 State Representation
+
+Each state contains:
+
+• completed assignments
+• daily schedule
+• total cost so far
+
+--------------------------------------------------
+
+4.2 Cost Function
+
+Daily cost is computed as:
+
+sum of food costs in menu
+
+Example:
+
+Menu = {2 TC, 1 PM}
+
+Cost = 2×TC + 1×PM
+
+--------------------------------------------------
+
+4.3 Heuristic Function
+
+Heuristic estimates minimum possible future cost.
+
+We used:
+
+sum of cheapest food costs of remaining assignments
+
+Properties:
+
+• admissible
+• never overestimates
+• guarantees optimal solution
+
+--------------------------------------------------
+
+5. Results
+
+Test Case 1
+
+Strategy | Days | Cost
+Greedy (Food Cost) | 6 | 11
+Greedy (Frequency) | 6 | 11
+A* Optimal | 7 | 11
+
+Observation:
+
+Greedy found same cost as A* but with fewer days.
+
+--------------------------------------------------
+
+Test Case 2
+
+Strategy | Days | Cost
+Greedy (Food Cost) | 5 | 24
+Greedy (Frequency) | 5 | 24
+A* Optimal | 6 | 24
+
+Observation:
+
+Greedy achieved optimal cost faster.
+
+--------------------------------------------------
+
+Test Case 3
+
+Strategy | Days | Cost
+Greedy (Food Cost) | 8 | 18
+Greedy (Frequency) | 8 | 18
+A* Optimal | 9 | 18
+
+Observation:
+
+All approaches produced same cost.
+
+--------------------------------------------------
+
+6. Comparison of Algorithms
+
+Property | Greedy | A*
+Optimal solution | No guarantee | Guaranteed
+Speed | Fast | Slower
+Complexity | Low | High
+Implementation | Easy | Moderate
+Performance | Good approximation | Best solution
+
+--------------------------------------------------
+
+7. Statistical Summary
+
+Test Case | Best Greedy Cost | A* Cost | Cost Difference | Day Difference
+Test1 | 11 | 11 | 0 | 1
+Test2 | 24 | 24 | 0 | 1
+Test3 | 18 | 18 | 0 | 1
+
+--------------------------------------------------
+
+8. Analysis
+
+Observations:
+
+1. Greedy approaches performed well because food costs were similar.
+2. A* explored many states but confirmed optimal cost.
+3. A* sometimes required more days because it optimizes cost only.
+4. Group size significantly impacts schedule efficiency.
+5. Dependency structure affects availability of assignments.
+
+Key insight:
+
+Food cost minimization does not always minimize number of days.
+
+Trade-off exists between:
+
+• schedule length
+• menu consistency
+
+--------------------------------------------------
+
+9. Conclusion
+
+We implemented Greedy and A* algorithms to solve constrained scheduling.
+
+Findings:
+
+Greedy methods provide fast approximate solutions.
+A* guarantees optimal food cost.
+In our test cases, Greedy achieved near-optimal results.
+
+A* is recommended when:
+
+optimal cost is critical.
+
+Greedy is recommended when:
+
+fast scheduling is required.
+
+--------------------------------------------------
